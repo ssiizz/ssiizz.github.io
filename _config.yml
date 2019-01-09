@@ -1,9 +1,9 @@
 # Site settings
-title: SSIIZZ Blog
-SEOTitle: 博客 | SSIIZZ Blog
-header-img: img/post-bg-desk.jpg
+title: SSIIZZ
+SEOTitle: 博客 | SSIIZZ
+header-img: img/post-bg-unix-linux.jpg
 email: 13811845216@163.com
-description: "Every failure is leading towards success."
+description: "要尊重自己的谋生技能"
 keyword: "storage,ceph"
 url: "https://ssiizz.github.io"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
