@@ -1,0 +1,130 @@
+---
+layout:     post   				   
+title:      ARTS-1 				
+subtitle:   
+date:       2019-01-28 				
+author:     ssiizz 						
+header-img: img/post-bg-2015.jpg 
+catalog: true 						
+tags:			Algorithm  Rreview  Tip  Share		
+---
+
+# Algorithm
+## 0092. Reverse Linked List II.cpp
+```
+#include <stdio.h>
+
+struct ListNode {
+	int val;
+	ListNode *next;
+	ListNode(int x) : val(x), next(NULL) {}
+};
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int m, int n) {
+    	int pos=1;
+    	ListNode* ret = head;
+    	ListNode* pre_head = NULL;
+    	ListNode* new_tail = NULL;
+    	ListNode* next = NULL;
+    	ListNode tmp(0);
+    	
+		if(!head) return head;
+		 
+        while(head && pos < m-1){
+			pos++;
+			head=head->next;
+		}
+		if(1==m){
+			pre_head=&tmp;
+			new_tail = head;
+			ret=tmp.next;			
+		}else{
+			pre_head = head;
+			new_tail = head->next;
+			head=head->next;
+			pos++;	
+		}
+
+		//printf("Begin %d %p %p\n", head->val, head, head->next);
+		
+		while(head && pos <= n){
+			//printf("%d:%d %p %p\n", pos,head->val, head, head->next);
+			pos++;
+			next = head->next;
+			head->next = pre_head->next;
+			pre_head->next = head;
+			head=next;
+		}
+		new_tail->next = head;
+		if(1==m)
+			ret = tmp.next;
+		
+		return ret;
+    }
+};
+
+int main(){
+	ListNode a(10);
+	ListNode b(20);
+	ListNode c(30);
+	ListNode d(40);
+	ListNode e(50);
+	ListNode f(60);
+	ListNode g(70);
+	a.next = &b;
+	b.next = &c;
+	c.next = &d;
+	d.next = &e;
+	e.next = &f;
+	f.next = &g;
+	
+	ListNode *head = &a;
+	printf("before reverse\n");
+	while(head){
+		printf("%d %p %p\n", head->val, head, head->next);
+		head = head->next;
+	}
+	class Solution s;
+
+	head=s.reverseBetween(&a,1,7);
+	printf("after reverse\n");
+	while(head){
+		printf("%d %p %p\n", head->val, head, head->next);
+		head = head->next;
+	}	
+	return 0;
+}
+```
+
+# Review
+
+[Starting a tech startup with C++](https://medium.com/swlh/starting-a-tech-startup-with-c-6b5d5856e6de)
+
+作者用了自己实际开发OLAP的例子来说明，为什么使用了C++而没有用动态语言如python等。
+
+首先在生产力上来看，作者认为现代C++ 并不弱于动态语言，只是很多人用错了C++，比如应该使用auto来推断类型而不是写一个冗长的类型，应该多使用智能指针而不是裸指针，虽然损失了些性能，但这是值得的。此外，作者认为C++ 相比于动态语言来说，比较弱的地方在于没有太多好用的基础库，不过文章中作者也给出了推荐，如facebook的多个库。
+
+他还比较了用c++ 实现的http服务器和python的实现在性能上强了40倍。所以作者认为从节省硬件和劳动开销这两个方面来说，C++  仍然是首选。硬件自不必说，劳动力上，作者认为用python写的服务迟早有一天会遇到瓶颈，并需要被废弃。
+
+不知道大家都怎么看？
+
+# Tip
+最近在搞一些性能的东西，发现一个运维监控小工具挺实用的，至少不用一下子开好几个窗口。
+
+[nmon](http://nmon.sourceforge.net/pmwiki.php)
+
+
+# Share
+[Software Architecture - The Difference Between Architecture and Design](https://codeburst.io/software-architecture-the-difference-between-architecture-and-design-7936abdd5830)
+
+本文主要分析了软件架构和设计模式的主要区别，作者认为软件架构本质上是将软件的各种特性，如弹性、可扩展性、可重用性以及安全特性，转化为满足技术和商业预期的一种过程。
+
+主要提及的软件架构模式包括无状态架构、事件驱动架构，微服务架构等。
+
+作者认为软件架构只负责软件的骨架或者说高层的设计，而软件设计则负责代码层次的设计，比如每个模块做什么，类的作用域，函数的功能等。
+
+简单介绍了SOLID 设计的准则，并分析了几种设计模式。
+
+我个人觉得作者总结还是挺精炼的，并给出了一些比较详细的参考文献，可以有更深入的理解。我最近看ceph的源码，觉得它的面向对象的导致依赖准则实现的还是挺好的，这样他的很多模块才可以很灵活的替换，比如从filestore替换到bluestore的过程。后面在自己开发的过程中需要注意遵循这些准则。
+
